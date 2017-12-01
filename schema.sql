@@ -1,51 +1,42 @@
 
 
-/*===================================== CREATE DATABASE AND SELECT IT ======================*/
+DROP DATABASE IF EXISTS cheapomail;
+CREATE DATABASE cheapomail;
+USE cheapomail;
 
-drop database IF EXISTS cheapomail;
-create database cheapomail;
-use cheapomail;
-
-/*======================= CREATING TABLES ===================================================*/
-
-
-/* clean up old tables;
-   must drop tables with foreign keys first
-   due to referential integrity constraints
- */
-drop table IF EXISTS user;
-drop table IF EXISTS messages;
-drop table IF EXISTS messages_read;
+DROP TABLE IF EXISTS `user`;
+CREATE TABLE `user` (
+	`id` int(11) PRIMARY KEY NOT NULL auto_increment,
+	`firstname` varchar(20) NOT NULL,
+	`lastname` varchar(20) NOT NULL,
+	`username` varchar(16) NOT NULL,
+	`password` varchar(32) NOT NULL,
+	UNIQUE (`username`)
+); 
 
 
-create table user(
-  user_id int auto_increment not null,
-  firstname varchar(50)	not null,
-  lastname varchar(50) not null,
-  username varchar(50) not null ,
-  password varchar (20) not null,
-  primary key(user_id)
-  );
+INSERT INTO `user` VALUES (NULL, 'Admin', 'Admin', 'admin', 'bdc87b9c894da5168059e00ebffb9077');/*password1234*/
+INSERT INTO `user` VALUES (NULL, 'Omar', 'Christie', 'ochristie', '62b6271e5030b702c20d2a39fb6afb71');/*Passwords:Madcat1000*/
+INSERT INTO `user` VALUES (NULL, 'Sabreen', 'Hasan', 'shasan', '2dfa0295ec18b1ba29069414e71333cc');/*Password: Madcat1333*/
 
 
-create table messages (
-  message_id int auto_increment not null,
-  recipient_ids varchar(50)  not null,
-  sender_id varchar(50) not null,
-  subject varchar(50) not null ,
-  body varchar (300) not null,
-  date_sent date,    
-  primary key(message_id)
-  ); 
+
+DROP TABLE IF EXISTS `message`;
+CREATE TABLE `message` (
+	`id` int(11) PRIMARY KEY NOT NULL auto_increment,
+	`recipient_ids` varchar(20) NOT NULL,
+	`user_id` varchar(20) NOT NULL,
+	`subject` varchar(128) NOT NULL,
+	`body` mediumtext NOT NULL,
+	`date_sent` datetime NOT NULL
+); 
 
 
-create table messages_read (
-  message_read_id int auto_increment not null,
-  message_id int auto_increment not null,
-  reader_id varchar(50) not null,
-  date_read date,    
-  primary key (message_read_id,message_id), 
-  foreign key (message_id) references messages(message_id) on delete cascade on update cascade
-  ); 
+DROP TABLE IF EXISTS `message_read`;
+CREATE TABLE `message_read` (
+	`id` int(11) PRIMARY KEY NOT NULL auto_increment,
+	`message_id` varchar(20) NOT NULL,
+	`reader_id` varchar(20) NOT NULL,
+	`date` datetime NOT NULL
+);
 
-  INSERT INTO user VALUES("",'Yanique','Lawrence','Admin', sha1('password123'));
