@@ -34,7 +34,7 @@ $(document).ready(function(){
                         },
                         success: function(data){
                             console.log(data);
-                            //login(data);
+                            login(data);
                         }
                     });
                     e.preventDefault(); // avoid to execute the actual submit of the form.
@@ -45,6 +45,8 @@ $(document).ready(function(){
 
     function login(result){
         // check result for success
+         console.log(result);
+         console.log(result.type);
         if(result.result == "not_found"){
             console.log(result);
             $("#message").html("User does not exist");
@@ -52,6 +54,7 @@ $(document).ready(function(){
             $("#message").html("Incorrect username or password");
         } else if (result.result == "success"){
             //determine the user type
+            console.log("gaza");
             if(result.type == "admin"){
                 console.log(result.type);
                 $.ajax({
