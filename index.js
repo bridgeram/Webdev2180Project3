@@ -44,32 +44,46 @@ $(document).ready(function(){
     }
 
     function login(result){
+        var temp = null;
+        
+        try{
+            temp = JSON.parse(result);
+            
+        }catch(e){
+            temp = result;
+        }
         // check result for success
          console.log(result);
          console.log(result.type);
-        if(result.result == "not_found"){
-            console.log(result);
+        if(temp.result == "not_found"){
             $("#message").html("User does not exist");
-        } else if (result.result == "password_mismatch"){
+        } else if (temp.result == "password_mismatch"){
             $("#message").html("Incorrect username or password");
-        } else if (result.result == "success"){
+        } else if (temp.result == "success"){
             //determine the user type
-            console.log("gaza");
-            if(result.type == "admin"){
-                console.log(result.type);
+            if(temp.type == "admin"){
                 $.ajax({
                     url: "admin.html",
                     success: function(page){
                         loadAdminPage(result, page);
                     }
                 });
-            } else if (result.type == "user"){
+            } else if (temp.type == "user"){
                 loadUser(result);
             }
+        
         }
     }
 
     function loadAdminPage(admin, page){
+        var temp = null;
+         try{
+             temp = JSON.parse(admin);
+        }catch(e){
+            temp = admin;
+        }
+        admin = temp;
+        
         $("body").html(page);
         $("#name").html(admin.fname + " " + admin.lname);
 
@@ -118,6 +132,13 @@ $(document).ready(function(){
     }
     
     function loadUserPage(user,page){
+         var temp = null;
+         try{
+             temp = JSON.parse(user);
+        }catch(e){
+            temp = user;
+        }
+        user = temp;
         $("body").html(page);
         $("#name").html(user.fname + " " + user.lname);
 
@@ -265,6 +286,3 @@ $(document).ready(function(){
     }
     
 });//on page load ends here
-
-
-
